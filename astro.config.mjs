@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 import react from "@astrojs/react";
 
@@ -6,18 +6,15 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [react()],
   vite: {
-    ignored: ["vendored_node_modules/**/*"],
-		build: { target: 'esnext' },
-		optimizeDeps: {
-			esbuildOptions: {
-				target: 'esnext',
-			},
-			exclude: [
-				"lexical",
-			],
-		},
+    build: { target: "esnext" },
+    optimizeDeps: {
+      esbuildOptions: {
+        target: "esnext",
+      },
+      exclude: ["lexical"],
+    },
     ssr: {
-  		noExternal: [/^(lexical|@lexical\/.*)$/]
-	  }
-  }
+      noExternal: [/^(lexical|@lexical\/.*)$/],
+    },
+  },
 });
