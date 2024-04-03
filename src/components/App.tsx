@@ -11,11 +11,16 @@ import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {CodeHighlightNode, CodeNode} from '@lexical/code';
+import {registerCodeHighlighting} from '@lexical/code';
+
 // import * as React from 'react';
 
 import ExampleTheme from './ExampleTheme';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
+import { useEffect } from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -23,7 +28,7 @@ function Placeholder() {
 
 const editorConfig = {
   namespace: 'React.js Demo',
-  nodes: [],
+  nodes: [CodeNode, CodeHighlightNode],
   // Handling of errors during update
   onError(error: Error) {
     throw error;
@@ -31,6 +36,14 @@ const editorConfig = {
   // The editor theme
   theme: ExampleTheme,
 };
+
+function CodeHighlightingPlugin() {
+  const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    registerCodeHighlighting(editor);
+  }, [editor]);
+  return null;
+}
 
 export default function App() {
   return (
@@ -46,6 +59,7 @@ export default function App() {
           <HistoryPlugin />
           <AutoFocusPlugin />
           <TreeViewPlugin />
+          <CodeHighlightingPlugin />
         </div>
       </div>
     </LexicalComposer>
